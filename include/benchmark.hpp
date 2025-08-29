@@ -248,7 +248,7 @@ private:
     value_generator_t value_generator_;
 
     /// Intel PCM handler.
-    PCM* pcm_;
+    pcm::PCM* pcm_;
 
 #if defined(EPOCH_BASED_RECLAMATION)
     /// Epoch manager

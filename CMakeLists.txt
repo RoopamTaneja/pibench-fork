@@ -36,17 +36,17 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 ######################## Intel PCM ########################
-add_custom_command(OUTPUT libPCM.a
-                    COMMAND make lib
-                    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/pcm)
+# add_custom_command(OUTPUT libPCM.a
+#                     COMMAND make lib
+#                     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/pcm)
 
-add_custom_target(pcm DEPENDS libPCM.a)
+# add_custom_target(pcm DEPENDS build/src/libPCM.a)
 ###########################################################
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 
 include_directories("${PROJECT_SOURCE_DIR}/include"
-                    "${PROJECT_SOURCE_DIR}/pcm")
+                    "${PROJECT_SOURCE_DIR}/pcm/src")
 
 add_subdirectory(src)
 
@@ -62,3 +62,4 @@ endif(PIBENCH_BUILD_LEVELDB)
 # Example libraries
 add_library(dummy_wrapper SHARED wrappers/dummy/dummy_wrapper.cpp)
 add_library(stlmap_wrapper SHARED wrappers/stlmap/stlmap_wrapper.cpp)
+

@@ -92,12 +92,12 @@ benchmark_t::benchmark_t(tree_api* tree, const options_t& opt) noexcept
 {
     if (opt.enable_pcm)
     {
-        pcm_ = PCM::getInstance();
+        pcm_ = pcm::PCM::getInstance();
         auto status = pcm_->program();
-        if (status != PCM::Success)
+        if (status != pcm::PCM::Success)
         {
             std::cout << "Error opening PCM: " << status << std::endl;
-            if (status == PCM::PMUBusy)
+            if (status == pcm::PCM::PMUBusy)
                 pcm_->resetPMU();
             else
                 exit(0);
@@ -350,11 +350,11 @@ void benchmark_t::run() noexcept
         }
     }
 
-    std::unique_ptr<SystemCounterState> before_sstate;
+    std::unique_ptr<pcm::SystemCounterState> before_sstate;
     if (opt_.enable_pcm)
     {
-        before_sstate = std::make_unique<SystemCounterState>();
-        *before_sstate = getSystemCounterState();
+        before_sstate = std::make_unique<pcm::SystemCounterState>();
+        *before_sstate = pcm::getSystemCounterState();
     }
 
     double elapsed = 0.0;
@@ -520,11 +520,11 @@ void benchmark_t::run() noexcept
         waitpid(perf_pid, nullptr, 0);
     }
 
-    std::unique_ptr<SystemCounterState> after_sstate;
+    std::unique_ptr<pcm::SystemCounterState> after_sstate;
     if (opt_.enable_pcm)
     {
-        after_sstate = std::make_unique<SystemCounterState>();
-        *after_sstate = getSystemCounterState();
+        after_sstate = std::make_unique<pcm::SystemCounterState>();
+        *after_sstate = pcm::getSystemCounterState();
     }
 
     std::cout << std::fixed << std::setprecision(4);
@@ -640,11 +640,11 @@ void benchmark_t::run() noexcept
     {
         std::cout << "PCM Metrics:"
                   << "\n"
-                  << "\tL3 misses: " << getL3CacheMisses(*before_sstate, *after_sstate) << "\n"
-                  << "\tDRAM Reads (bytes): " << getBytesReadFromMC(*before_sstate, *after_sstate) << "\n"
-                  << "\tDRAM Writes (bytes): " << getBytesWrittenToMC(*before_sstate, *after_sstate) << "\n"
-                  << "\tNVM Reads (bytes): " << getBytesReadFromPMM(*before_sstate, *after_sstate) << "\n"
-                  << "\tNVM Writes (bytes): " << getBytesWrittenToPMM(*before_sstate, *after_sstate) << std::endl;
+                  << "\tL3 misses: " << pcm::getL3CacheMisses(*before_sstate, *after_sstate) << "\n"
+                  << "\tDRAM Reads (bytes): " << pcm::getBytesReadFromMC(*before_sstate, *after_sstate) << "\n"
+                  << "\tDRAM Writes (bytes): " << pcm::getBytesWrittenToMC(*before_sstate, *after_sstate) << "\n"
+                  << "\tNVM Reads (bytes): " << pcm::getBytesReadFromPMM(*before_sstate, *after_sstate) << "\n"
+                  << "\tNVM Writes (bytes): " << pcm::getBytesWrittenToPMM(*before_sstate, *after_sstate) << std::endl;
     }
 
     std::cout << "Samples:" << std::endl;
@@ -806,3 +806,4 @@ std::ostream& operator<<(std::ostream& os, const PiBench::options_t& opt)
     return os;
 }
 } // namespace std
+

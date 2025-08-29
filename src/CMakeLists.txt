@@ -8,11 +8,11 @@ set(pibench_SRC
 )
 
 add_library(pibench ${pibench_SRC})
-add_dependencies(pibench pcm)
+# add_dependencies(pibench pcm)
 target_compile_options(pibench PRIVATE ${OpenMP_CXX_FLAGS})
 target_link_libraries(pibench PRIVATE
     ${OpenMP_CXX_FLAGS}
-    ${PROJECT_SOURCE_DIR}/pcm/libPCM.a
+    ${PROJECT_SOURCE_DIR}/pcm/build/src/libpcm.a
     numa dl)
 
 if(PIBENCH_USE_EPOCH_BASED_RECLAMATION)
@@ -23,3 +23,4 @@ endif(PIBENCH_USE_EPOCH_BASED_RECLAMATION)
 add_executable(pibench-bin main.cpp)
 target_link_libraries(pibench-bin pibench)
 set_target_properties(pibench-bin PROPERTIES OUTPUT_NAME PiBench)
+
