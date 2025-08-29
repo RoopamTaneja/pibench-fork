@@ -36,11 +36,14 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 ######################## Intel PCM ########################
-# add_custom_command(OUTPUT libPCM.a
-#                     COMMAND make lib
-#                     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/pcm)
+add_custom_command(OUTPUT ${PROJECT_SOURCE_DIR}/pcm/build/src/libpcm.a
+                    COMMAND ${CMAKE_COMMAND} -S . -B build
+                    COMMAND ${CMAKE_COMMAND} --build build --parallel
+                    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/pcm
+                    COMMENT "Building Intel PCM library"
+                    VERBATIM)
 
-# add_custom_target(pcm DEPENDS build/src/libPCM.a)
+add_custom_target(pcm DEPENDS ${PROJECT_SOURCE_DIR}/pcm/build/src/libpcm.a)
 ###########################################################
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
